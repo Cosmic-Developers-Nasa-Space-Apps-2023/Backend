@@ -21,6 +21,8 @@ APP_NAME: str = os.environ.get("APP_NAME", "APPNAME")
 URL: str = ""
 FRONTEND_URL: str = ""
 
+EMAIL_FROM: str = os.environ.get("EMAIL_FROM")
+
 SPECIAL_APPS: list = [
     "whitenoise.runserver_nostatic",
     "jet.dashboard",
