@@ -51,11 +51,6 @@ class UsersProjects(Model):
         null=False,
         blank=False
     )
-    scope = TextField(
-        "role",
-        null=False,
-        blank=False
-    )
 
 
 class JoiningRequests(Model):

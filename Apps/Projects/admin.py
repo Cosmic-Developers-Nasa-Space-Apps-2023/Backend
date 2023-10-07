@@ -27,21 +27,20 @@ class ProjectAdmin(ModelAdmin):
 
 class UsersProjectsAdmin(ModelAdmin):
     model: Model = UsersProjects
-    list_display: tuple = ("id", "role", "scope")
+    list_display: tuple = ("id", "role")
     list_display_links: tuple = ("id",)
     list_filter: tuple = (
         "user_id",
         "project_id",
         "role",
-        "scope"
     )
     fieldsets: tuple = (
-        ("Basic", {"fields": ("id", "user_id", "project_id", "role", "scope")}),
+        ("Basic", {"fields": ("id", "user_id", "project_id", "role")}),
     )
     readonly_fields: list = [
         "id",
     ]
-    search_fields: tuple = ("id", "user_id", "project_id", "role", "scope")
+    search_fields: tuple = ("id", "user_id", "project_id", "role")
 
 
 class JoiningRequestAdmin(ModelAdmin):
