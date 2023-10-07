@@ -14,7 +14,7 @@ ping: {}
 
 # Traefik Logging
 log:
-  level: ERROR
+  level: INFO
 
 # Entrypoint
 entryPoints:

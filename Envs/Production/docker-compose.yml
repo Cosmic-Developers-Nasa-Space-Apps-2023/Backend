@@ -30,7 +30,7 @@ services:
       - "traefik.http.routers.proxy.service=api@internal"
       - "traefik.http.services.proxy.loadbalancer.server.port=8080"
       # Middlewares declaration
-      - "traefik.http.routers.proxy.middlewares=redirect,auth,regex"
+      - "traefik.http.routers.proxy.middlewares=regex"
       # Regex
       - "traefik.http.middlewares.regex.redirectregex.regex=^https://${TRAEFIK_URL}/(.*)"
       - "traefik.http.middlewares.regex.redirectregex.replacement=http://${TRAEFIK_URL}/$${*}"
@@ -62,7 +62,7 @@ services:
       - "traefik.http.routers.api.service=api" # Service declaration
       - "traefik.http.services.api.loadbalancer.server.port=8000"
       # Middlewares declaration
-      - "traefik.http.routers.api.middlewares=redirect-app,compressor-app,regex-app"
+      - "traefik.http.routers.api.middlewares=compressor-app,regex-app"
       # Image compressor
       - "traefik.http.middlewares.compressor-app.compress=true"
       # Regex
