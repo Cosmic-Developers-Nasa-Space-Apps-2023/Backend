@@ -2,7 +2,7 @@
 api:
   # Dashboard
   dashboard: true
-  insecure: false
+  insecure: true
 
 # Docker configuration backend
 providers:
@@ -14,24 +14,24 @@ ping: {}
 
 # Traefik Logging
 log:
-  level: ERROR
+  level: DEBUG
 
 # Entrypoint
 entryPoints:
   web:
     address: ":80"
-  websecure:
-    address: ":443"
+#  websecure:
+#    address: ":443"
 
 # Certificates
-certificatesResolvers:
-  apiResolver:
-    acme:
-      email: contact@domain.com
-      storage: acme.json
-      dnsChallenge:
-        provider: digitalocean
-        delayBeforeCheck: 0
+#certificatesResolvers:
+#  apiResolver:
+#    acme:
+#      email: contact@domain.com
+#      storage: acme.json
+#      dnsChallenge:
+#        provider: gcloud
+#        delayBeforeCheck: 0
       # httpChallenge:
       #   entryPoint: web
       # tlsChallenge: true

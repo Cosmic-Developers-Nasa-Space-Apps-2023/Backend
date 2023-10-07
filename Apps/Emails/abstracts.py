@@ -30,7 +30,7 @@ class AbstractEmailFunctionClass:
     def get_email_object(self) -> EmailMultiAlternatives:
         email: EmailMultiAlternatives = EmailMultiAlternatives(
             subject=self.subject,
-            from_email=settings.EMAIL_HOST_USER,
+            from_email=settings.EMAIL_FROM,
             to=[self.get_email()],
         )
         email.attach_alternative(self.get_template(), "text/html")

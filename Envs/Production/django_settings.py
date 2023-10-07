@@ -9,6 +9,7 @@ ALLOWED_HOSTS: list = [
     os.environ.get("BACKEND_URL"),
     os.environ.get("FRONTEND_URL"),
     os.environ.get("SERVER_IP"),
+    "*",
 ]
 
 CSRF_TRUSTED_ORIGINS: list = [
@@ -22,6 +23,9 @@ CSRF_TRUSTED_ORIGINS: list = [
     f"http://{os.environ.get('SERVER_IP')}",
 ]
 URL: str = os.environ.get("BACKEND_URL")
+STATIC_URL: str = "/static/"
+STATIC_PATH: str = "Project/static"
+STATICFILES_DIRS: tuple = (os.path.join(BASE_DIR, STATIC_PATH),)
 STATIC_ROOT: str = os.path.join(BASE_DIR, "staticfiles")
 
 # SECURITY WARNING: keep the secret key used in production secret!
