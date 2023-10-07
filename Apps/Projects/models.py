@@ -1,5 +1,5 @@
 from django.db.models import Model, TextField, JSONField, DateField, CharField, BooleanField, ManyToManyField
-from Apps.Users.models import User
+from Users.models import User
 from Projects.choices import StatusChoices
 import pycountry
 
