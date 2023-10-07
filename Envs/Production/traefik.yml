@@ -20,8 +20,8 @@ log:
 entryPoints:
   web:
     address: ":80"
-  websecure:
-    address: ":443"
+#  websecure:
+#    address: ":443"
 
 # Certificates
 #certificatesResolvers:
