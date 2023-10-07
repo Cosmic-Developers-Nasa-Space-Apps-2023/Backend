@@ -1,6 +1,6 @@
 from django.db.models import Model, TextField, JSONField, DateField, CharField, BooleanField, ManyToManyField
 from Users.models import User
-from Projects.choices import StatusChoices
+from Projects.choices import StatusChoices, RequestStatusChoices
 from Users.models import User
 
 
@@ -66,6 +66,13 @@ class JoiningRequests(Model):
     project_id = ManyToManyField(
         Project,
         related_name="joining_requests"
+    )
+    status = CharField(
+        "status",
+        max_length=100,
+        choices=RequestStatusChoices.choices,
+        default=RequestStatusChoices.PENDING,
+        null=True,
     )
     working_date = DateField(null=False)
     summary = TextField(
