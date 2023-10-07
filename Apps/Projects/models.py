@@ -1,10 +1,7 @@
 from django.db.models import Model, TextField, JSONField, DateField, CharField, BooleanField, ManyToManyField
 from Users.models import User
 from Projects.choices import StatusChoices
-<<<<<<< Updated upstream
 from Users.models import User
-=======
->>>>>>> Stashed changes
 
 
 class Project(Model):
@@ -23,14 +20,15 @@ class Project(Model):
         null=True,
         blank=True        
     )
-    field = JSONField(
+    field = CharField(
         "field",
-        null=True,
-        blank=True
+        max_length=100,
+        null=False,
+        blank=False
     )
     status = CharField(
         "status",
-        max_length=10,
+        max_length=100,
         choices=StatusChoices.choices,
         default=StatusChoices.OPEN,
         null=True,
@@ -38,14 +36,15 @@ class Project(Model):
     starting_date = DateField(null=False)
     finishing_date = DateField(null=True)
 
+
 class UsersProjects(Model):
     user_id = ManyToManyField(
         User,
-        related_name="users_projects"
+        related_name="users"
     )
     project_id = ManyToManyField(
         Project,
-        related_name="users_projects"
+        related_name="projects"
     )
     role = TextField(
         "role",
@@ -57,6 +56,7 @@ class UsersProjects(Model):
         null=False,
         blank=False
     )
+
 
 class JoiningRequests(Model):
     user_id = ManyToManyField(
