@@ -1,7 +1,7 @@
 from django.db.models import Model, TextField, JSONField, DateField, CharField, BooleanField, ManyToManyField
 from Users.models import User
 from Projects.choices import StatusChoices
-import pycountry
+from Users.models import User
 
 # Create your models here.
 
@@ -28,7 +28,7 @@ class Project(Model):
     )
     status = CharField(
         "status",
-        max_length=1,
+        max_length=10,
         choices=StatusChoices.choices,
         default=StatusChoices.OPEN,
         null=True,
@@ -37,15 +37,13 @@ class Project(Model):
     finishing_date = DateField(null=True)
 
 class UsersProjects(Model):
-    user_id = CharField(
-        "UserID",
-        null=False,
-        blank=False
+    user_id = ManyToManyField(
+        User,
+        related_name="users_projects"
     )
-    project_id = CharField(
-        "ProjectID",
-        null=False,
-        blank=False
+    project_id = ManyToManyField(
+        Project,
+        related_name="users_projects"
     )
     role = TextField(
         "role",
@@ -70,6 +68,5 @@ class JoiningRequests(Model):
     working_date = DateField(null=False)
     summary = TextField(
         "summary",
-        max_length=500,
-        default=Users.defaultSummary
+        max_length=500
     )

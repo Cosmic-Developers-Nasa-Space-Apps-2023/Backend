@@ -72,11 +72,10 @@ class User(
         blank=True
     )
     experience = JSONField(
-        "DesiredSkills",
-        null=False,
-        blank=False
+        "Esperience",
+        null=True,
+        blank=True
     )
-    countryChoices = list(pycountry.countries)
     seeking_fields = JSONField(
         "SeekingSkills",
         null=True,
@@ -86,8 +85,8 @@ class User(
     defaultSummary = TextField(
         "DefaultSummary",
         max_length=500,
-        null=False,
-        blank=False
+        null=True,
+        blank=True
     )
     is_verified: Field = BooleanField("Verified", default=False)
     is_premium: Field = BooleanField("Premium", default=False)
