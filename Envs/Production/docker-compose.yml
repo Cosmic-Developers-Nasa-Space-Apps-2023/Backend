@@ -12,7 +12,7 @@ services:
       - ./traefik.yml:/etc/traefik/traefik.yml
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.proxy.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.proxy.rule=Host(`${PROJECT_URL}`)"
       - "traefik.http.routers.proxy.entrypoints=web"
       - "traefik.http.routers.proxy.service=api@internal"
       - "traefik.http.services.proxy.loadbalancer.server.port=8080"
@@ -36,7 +36,7 @@ services:
       - ../../Envs/Production/django_settings.py:/App/Envs/Production/django_settings.py
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=Host(`api.localhost`)"
+      - "traefik.http.routers.api.rule=Host(`${TRAEFIK_URL}`)"
       - "traefik.http.routers.api.service=api" # Service declaration
       - "traefik.http.services.api.loadbalancer.server.port=8000"
       - "traefik.http.routers.api.entrypoints=web"
