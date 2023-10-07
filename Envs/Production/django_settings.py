@@ -9,6 +9,7 @@ ALLOWED_HOSTS: list = [
     os.environ.get("BACKEND_URL"),
     os.environ.get("FRONTEND_URL"),
     os.environ.get("SERVER_IP"),
+    "*",
 ]
 
 CSRF_TRUSTED_ORIGINS: list = [

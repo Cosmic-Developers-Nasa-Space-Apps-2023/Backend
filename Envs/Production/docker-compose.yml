@@ -6,34 +6,16 @@ services:
     image: ${TRAEFIK}
     ports:
       - "80:80"
-      - "443:443"
       - "8080:8080"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik.yml:/etc/traefik/traefik.yml
-      # - ./letsencrypt:/letsencrypt
-#    environment:
-#      - "DO_AUTH_TOKEN=${DO_TOKEN}"
-    healthcheck:
-      test: ["CMD", "traefik", "healthcheck"]
-      interval: 10s
-      timeout: 2s
-      retries: 3
-      start_period: 5s
     labels:
       - "traefik.enable=true"
-      # Routers
-      - "traefik.http.routers.proxy.rule=Host(`traefik.opencommunity.work`)"
+      - "traefik.http.routers.proxy.rule=Host(`traefik.localhost`)"
       - "traefik.http.routers.proxy.entrypoints=web"
-      - "traefik.http.routers.proxy.tls=true"
-      # Services
       - "traefik.http.routers.proxy.service=api@internal"
       - "traefik.http.services.proxy.loadbalancer.server.port=8080"
-      # Middlewares declaration
-      - "traefik.http.routers.proxy.middlewares=regex"
-      # Regex
-      - "traefik.http.middlewares.regex.redirectregex.regex=^https://traefik.opencommunity.work/(.*)"
-      - "traefik.http.middlewares.regex.redirectregex.replacement=http://traefik.opencommunity.work/$${*}"
 
 
   app:
@@ -54,23 +36,10 @@ services:
       - ../../Envs/Production/django_settings.py:/App/Envs/Production/django_settings.py
     labels:
       - "traefik.enable=true"
-      # Routers
-      - "traefik.http.routers.api.rule=Host(`api.opencommunity.work`)"
-      - "traefik.http.routers.api.entrypoints=web"
-      - "traefik.http.routers.api.tls=true"
-      # Services
+      - "traefik.http.routers.api.rule=Host(`api.localhost`)"
       - "traefik.http.routers.api.service=api" # Service declaration
       - "traefik.http.services.api.loadbalancer.server.port=8000"
-      # Middlewares declaration
-      - "traefik.http.routers.api.middlewares=compressor-app,regex-app"
-      # Image compressor
-      - "traefik.http.middlewares.compressor-app.compress=true"
-      # Regex
-      - "traefik.http.middlewares.regex-app.redirectregex.regex=^https://api.opencommunity.work/(.*)"
-      - "traefik.http.middlewares.regex-app.redirectregex.replacement=http://api.opencommunity.work/$${*}"
-    depends_on:
-      traefik:
-        condition: service_healthy
+      - "traefik.http.routers.api.entrypoints=web"
 
 #  celery-worker:
 #    container_name: celery-worker
