@@ -26,7 +26,7 @@ CSRF_TRUSTED_ORIGINS: list = [
 URL: str = os.environ.get("BACKEND_URL")
 STATIC_URL: str = "/static/"
 STATIC_PATH: str = "Project/static"
-STATICFILES_DIRS: tuple = (os.path.join(BASE_DIR, STATIC_PATH), os.path.join(BASE_DIR, "staticfiles"),)
+STATICFILES_DIRS: tuple = (os.path.join(BASE_DIR, STATIC_PATH),)
 STATIC_ROOT: str = os.path.join(BASE_DIR, "staticfiles")
 
 # SECURITY WARNING: keep the secret key used in production secret!
