@@ -24,7 +24,7 @@ services:
       - "traefik.enable=true"
       # Routers
       - "traefik.http.routers.proxy.rule=Host(`${TRAEFIK_URL}`)"
-      - "traefik.http.routers.proxy.entrypoints=websecure"
+      - "traefik.http.routers.proxy.entrypoints=web"
       - "traefik.http.routers.proxy.tls=true"
       # - traefik.http.routers.proxy.tls.certresolver=apiResolver # Resolver in static configuration
       # Services
@@ -32,16 +32,9 @@ services:
       - "traefik.http.services.proxy.loadbalancer.server.port=8080"
       # Middlewares declaration
       - "traefik.http.routers.proxy.middlewares=redirect,auth,regex"
-      # Redirect Scheme HTTP -> HTTPS
-      - "traefik.http.middlewares.redirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.redirect.redirectscheme.permanent=true"
-      # Basic Auth
-      ## Create hash password < echo $(htpasswd -nb userName password) >
-      ## Add < | sed -e s/\\$/\\$\\$/g > to the end of the command if you want to place it here
-      ## - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD}"
       # Regex
-      - "traefik.http.middlewares.regex.redirectregex.regex=^http://${TRAEFIK_URL}/(.*)"
-      - "traefik.http.middlewares.regex.redirectregex.replacement=https://${TRAEFIK_URL}/$${*}"
+      - "traefik.http.middlewares.regex.redirectregex.regex=^https://${TRAEFIK_URL}/(.*)"
+      - "traefik.http.middlewares.regex.redirectregex.replacement=http://${TRAEFIK_URL}/$${*}"
 
 
   app:
@@ -64,7 +57,7 @@ services:
       - "traefik.enable=true"
       # Routers
       - "traefik.http.routers.api.rule=Host(`${BACKEND_URL}`)"
-      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.entrypoints=web"
       - "traefik.http.routers.api.tls=true"
       # - "traefik.http.routers.api.tls.certresolver=apiResolver" # Resolver in static configuration
       # Services
@@ -72,17 +65,11 @@ services:
       - "traefik.http.services.api.loadbalancer.server.port=8000"
       # Middlewares declaration
       - "traefik.http.routers.api.middlewares=redirect-app,compressor-app,regex-app"
-      # - "traefik.http.routers.api.middlewares=rateLimit"
-      # Redirect Scheme HTTP -> HTTPS
-      - "traefik.http.middlewares.redirect-app.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.redirect-app.redirectscheme.permanent=true"
       # Image compressor
       - "traefik.http.middlewares.compressor-app.compress=true"
       # Regex
-      - "traefik.http.middlewares.regex-app.redirectregex.regex=^http://${BACKEND_URL}/(.*)"
-      - "traefik.http.middlewares.regex-app.redirectregex.replacement=https://${BACKEND_URL}/$${*}"
-      # Rate Limit Middleware
-      # - "traefik.http.middlewares.rateLimit.ratelimit.average=100"
+      - "traefik.http.middlewares.regex-app.redirectregex.regex=^https://${BACKEND_URL}/(.*)"
+      - "traefik.http.middlewares.regex-app.redirectregex.replacement=http://${BACKEND_URL}/$${*}"
     depends_on:
       traefik:
         condition: service_healthy
@@ -123,7 +110,7 @@ services:
       - "traefik.enable=true"
       # Routers
       - "traefik.http.routers.flower.rule=Host(`${FLOWER_URL}`)"
-      - "traefik.http.routers.flower.entrypoints=websecure"
+      - "traefik.http.routers.flower.entrypoints=web"
       - "traefik.http.routers.flower.tls=true"
       # - "traefik.http.routers.flower.tls.certresolver=apiResolver" # Resolver in static configuration
       # Services
@@ -131,16 +118,9 @@ services:
       - "traefik.http.services.flower.loadbalancer.server.port=5555"
       # Middlewares declaration
       - "traefik.http.routers.flower.middlewares=redirect-flower,regex-flower,auth-flower"
-      # Redirect Scheme HTTP -> HTTPS
-      - "traefik.http.middlewares.redirect-flower.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.redirect-flower.redirectscheme.permanent=true"
-      # Basic Auth
-      ## Create hash password < echo $(htpasswd -nb userName password) >
-      ## Add < | sed -e s/\\$/\\$\\$/g > to the end of the command if you want to place it here
-      # - "traefik.http.middlewares.auth-flower.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD}"
       # Regex
-      - "traefik.http.middlewares.regex-flower.redirectregex.regex=^http://${FLOWER_URL}/(.*)"
-      - "traefik.http.middlewares.regex-flower.redirectregex.replacement=https://${FLOWER_URL}/$${*}"
+      - "traefik.http.middlewares.regex-flower.redirectregex.regex=^https://${FLOWER_URL}/(.*)"
+      - "traefik.http.middlewares.regex-flower.redirectregex.replacement=http://${FLOWER_URL}/$${*}"
 
   rabbitmq:
     container_name: rabbitmq
@@ -166,9 +146,6 @@ services:
       - "traefik.http.services.rabbit.loadbalancer.server.port=5672"
       # Middlewares declaration
       - "traefik.http.routers.rabbit.middlewares=redirect-rabbit,regex-rabbit,auth-rabbit"
-      # Redirect Scheme HTTP -> HTTPS
-      - "traefik.http.middlewares.redirect-rabbit.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.redirect-rabbit.redirectscheme.permanent=true"
       # Basic Auth
       ## Create hash password < echo $(htpasswd -nb userName password) >
       ## Add < | sed -e s/\\$/\\$\\$/g > to the end of the command if you want to place it here
