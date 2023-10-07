@@ -2,6 +2,7 @@
 Envs/Production/*.env
 Envs/Staging/*.env
 Envs/Dev/*.env
+/env
 
 
 # celery beat
