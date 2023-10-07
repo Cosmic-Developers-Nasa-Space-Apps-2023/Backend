@@ -59,7 +59,6 @@ services:
       - ../../Apps:/App/Apps
       - ../../staticfiles:/App/staticfiles
       - ../../Project:/App/Project
-      - ../../Envs/Production/test_django_settings.py:/App/Envs/Production/test_django_settings.py
       - ../../Envs/Production/django_settings.py:/App/Envs/Production/django_settings.py
     labels:
       - "traefik.enable=true"
