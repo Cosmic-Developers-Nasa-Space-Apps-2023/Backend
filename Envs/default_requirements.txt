@@ -34,4 +34,3 @@ redis==4.4.4
 requests==2.31.0
 tqdm==4.62.3
 whitenoise==6.3.0
-pycountry==22.3.5

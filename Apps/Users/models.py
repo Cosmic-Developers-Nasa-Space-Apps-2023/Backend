@@ -18,9 +18,8 @@ from django.db.models import TextField
 from django.db.models.fields.related import ForeignObject
 from django_prometheus.models import ExportModelOperationsMixin
 from phonenumber_field.modelfields import PhoneNumberField
-import pycountry
 
-from Project.storage import ImageStorage
+
 from Project.storage import get_image_storage
 from Project.storage import image_file_upload
 from Users.choices import AuthProviders

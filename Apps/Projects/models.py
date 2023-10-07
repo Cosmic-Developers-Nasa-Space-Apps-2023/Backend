@@ -1,9 +1,11 @@
 from django.db.models import Model, TextField, JSONField, DateField, CharField, BooleanField, ManyToManyField
 from Users.models import User
 from Projects.choices import StatusChoices
+<<<<<<< Updated upstream
 from Users.models import User
+=======
+>>>>>>> Stashed changes
 
-# Create your models here.
 
 class Project(Model):
     title = TextField(
