@@ -57,7 +57,7 @@ class UsersProjects(Model):
         null=False,
         blank=False
     )
-    
+
 class JoiningRequests(Model):
     user_id = ManyToManyField(
         User,
