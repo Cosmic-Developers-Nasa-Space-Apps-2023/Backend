@@ -21,7 +21,6 @@ CSRF_TRUSTED_ORIGINS: list = [
     f"http://{os.environ.get('BACKEND_URL')}",
     f"http://{os.environ.get('FRONTEND_URL')}",
     f"http://{os.environ.get('SERVER_IP')}",
-    "*",
 ]
 URL: str = os.environ.get("BACKEND_URL")
 STATIC_URL: str = "/static/"
