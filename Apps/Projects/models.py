@@ -57,65 +57,7 @@ class UsersProjects(Model):
         null=False,
         blank=False
     )
-
-class Users(Model):
-    id = CharField(
-        "ID",
-        null=False,
-        blank=False
-    )
-    username = TextField(
-        "username",
-        null=False,
-        blank=False
-    )
-    first_name = TextField(
-        "FirstName",
-        null=False,
-        blank=False
-    )
-    last_name = TextField(
-        "LastName",
-        null=False,
-        blank=False
-    )
-    email = TextField(
-        "email",
-        null=False,
-        blank=False
-    )
-    skills = JSONField(
-        "skills",
-        null=True,
-        blank=True        
-    )
-    experience = JSONField(
-        "DesiredSkills",
-        null=False,
-        blank=False        
-    )
-    countryChoices = list(pycountry.countries)
-    country = CharField(
-        "country",
-        max_length=1,
-        choices=countryChoices,
-        null=False,
-    )
-    is_verified = BooleanField(default=False, editable=True)
-    seeking_fields = JSONField(
-        "SeekingSkills",
-        null=True,
-        blank=True        
-    )
-    working_availability = DateField(null=True)
-    defaultSummary = TextField(
-        "DefaultSummary",
-        max_length=500,
-        null=False,
-        blank=False
-    )
-    is_public = BooleanField(default=False, editable=True)
-
+    
 class JoiningRequests(Model):
     user_id = ManyToManyField(
         User,
