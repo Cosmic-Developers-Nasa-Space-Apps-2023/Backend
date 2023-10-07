@@ -92,10 +92,18 @@ SPECTACULAR_SETTINGS: dict = {
     "SWAGGER_UI_DIST": "SIDECAR",  # shorthand to use the sidecar instead
     "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
     "REDOC_DIST": "SIDECAR",
-    "TITLE": "Your Project API",
-    "DESCRIPTION": "Your project description",
+    "TITLE": "Nasa Space Apps Challenge 2023",
+    "DESCRIPTION": "A Marketplace for Open Science Projects",
     "VERSION": "1.0.0",
     "SCHEMA_PATH_PREFIX": r"/api/",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": False,
+        "persistAuthorization": True,
+        "displayOperationId": True,
+        "defaultModelsExpandDepth": 0,
+        "docExpansion": None,
+    },
 }
 
 ROOT_URLCONF: str = "Project.urls"

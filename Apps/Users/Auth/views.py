@@ -19,6 +19,13 @@ class UserAuthViewSet(ViewSet):
     API endpoint that allows to authenticate users
     """
 
+    def get_serializer_class(self):
+        if self.action == "signup":
+            return UserSignUpSerializer
+        elif self.action == "login":
+            return UserLoginSerializer
+        return UserRetrieveSerializer
+
     @action(detail=False, methods=["post"], permission_classes=[AllowAny])
     def signup(self, request: HttpRequest) -> Response:
         data: dict = request.data
