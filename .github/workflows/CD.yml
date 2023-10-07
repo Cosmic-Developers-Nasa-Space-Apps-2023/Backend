@@ -1,11 +1,9 @@
-name: Versioning workflow
+name: CD workflow
 
 on:
   push:
     branches:
       - 'master'
-      - 'staging'
-      - 'dev'
 
 jobs:
   Docker-Tag:
@@ -31,26 +29,6 @@ jobs:
         push: true
         tags: |
           ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_REPONAME}}:latest
-          ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPONAME }}:${{ github.sha }}
-    - name: 🏗️ Build and push staging
-      if: ${{ github.ref == 'refs/heads/staging' }}
-      uses: docker/build-push-action@v3
-      with:
-        context: .
-        file: ./Envs/Staging/Dockerfile
-        push: true
-        tags: |
-          ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPONAME }}:staging-latest
-          ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPONAME }}:${{ github.sha }}
-    - name: 🏗️ Build and push dev
-      if: ${{ github.ref == 'refs/heads/dev' }}
-      uses: docker/build-push-action@v3
-      with:
-        context: .
-        file: ./Envs/Dev/Dockerfile
-        push: true
-        tags: |
-          ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPONAME }}:dev-latest
           ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPONAME }}:${{ github.sha }}
 
   Github-Versioning:
