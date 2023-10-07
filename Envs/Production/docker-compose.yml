@@ -9,7 +9,7 @@ services:
       - "443:443"
       - "8080:8080"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yml:/etc/traefik/traefik.yml
       # - ./letsencrypt:/letsencrypt
 #    environment:
@@ -26,7 +26,6 @@ services:
       - "traefik.http.routers.proxy.rule=Host(`${TRAEFIK_URL}`)"
       - "traefik.http.routers.proxy.entrypoints=web"
       - "traefik.http.routers.proxy.tls=true"
-      # - traefik.http.routers.proxy.tls.certresolver=apiResolver # Resolver in static configuration
       # Services
       - "traefik.http.routers.proxy.service=api@internal"
       - "traefik.http.services.proxy.loadbalancer.server.port=8080"
@@ -47,7 +46,7 @@ services:
     env_file: &envfile
       - ../../Envs/Production/variables.env
     ports:
-      - 8000:8000
+      - "8000:8000"
     volumes:
       - ../../Apps:/App/Apps
       - ../../staticfiles:/App/staticfiles
@@ -59,7 +58,6 @@ services:
       - "traefik.http.routers.api.rule=Host(`${BACKEND_URL}`)"
       - "traefik.http.routers.api.entrypoints=web"
       - "traefik.http.routers.api.tls=true"
-      # - "traefik.http.routers.api.tls.certresolver=apiResolver" # Resolver in static configuration
       # Services
       - "traefik.http.routers.api.service=api" # Service declaration
       - "traefik.http.services.api.loadbalancer.server.port=8000"
@@ -74,82 +72,82 @@ services:
       traefik:
         condition: service_healthy
 
-  celery-worker:
-    container_name: celery-worker
-    build:
-      context: ../../
-      dockerfile: ${DOCKERFILE_PATH}
-    image: *app
-    restart: always
-    env_file: *envfile
-    command: ${START_CELERY_WORKER}
-    depends_on:
-      - rabbitmq
-
-  celery-beat:
-    container_name: celery-beat
-    build:
-      context: ../../
-      dockerfile: ${DOCKERFILE_PATH}
-    image: *app
-    env_file: *envfile
-    command: ${START_CELERY_BEAT}
-    depends_on:
-      - celery-worker
-
-  flower:
-    container_name: flower
-    image: ${FLOWER}
-    restart: "no"
-    env_file: *envfile
-    ports:
-      - 5555:5555
-    depends_on:
-      - rabbitmq
-    labels:
-      - "traefik.enable=true"
-      # Routers
-      - "traefik.http.routers.flower.rule=Host(`${FLOWER_URL}`)"
-      - "traefik.http.routers.flower.entrypoints=web"
-      - "traefik.http.routers.flower.tls=true"
-      # - "traefik.http.routers.flower.tls.certresolver=apiResolver" # Resolver in static configuration
-      # Services
-      - "traefik.http.routers.flower.service=flower" # Service declaration
-      - "traefik.http.services.flower.loadbalancer.server.port=5555"
-      # Middlewares declaration
-      - "traefik.http.routers.flower.middlewares=redirect-flower,regex-flower,auth-flower"
-      # Regex
-      - "traefik.http.middlewares.regex-flower.redirectregex.regex=^https://${FLOWER_URL}/(.*)"
-      - "traefik.http.middlewares.regex-flower.redirectregex.replacement=http://${FLOWER_URL}/$${*}"
-
-  rabbitmq:
-    container_name: rabbitmq
-    image: ${RABBIT}
-    env_file: *envfile
-    ports:
-      - 5672:5672
-      - 15672:15672
-    volumes:
-      - ${DATA_FOLDER}/rabbitmq_data:/data
-    depends_on:
-      traefik:
-        condition: service_healthy
-    labels:
-      - "traefik.enable=true"
-      # Routers
-      - "traefik.http.routers.rabbit.rule=Host(`${RABBIT_URL}`)"
-      - "traefik.http.routers.rabbit.entrypoints=websecure"
-      - "traefik.http.routers.rabbit.tls=true"
-      # - "traefik.http.routers.rabbit.tls.certresolver=apiResolver" # Resolver in static configuration
-      # Services
-      - "traefik.http.routers.rabbit.service=rabbit" # Service declaration
-      - "traefik.http.services.rabbit.loadbalancer.server.port=5672"
-      # Middlewares declaration
-      - "traefik.http.routers.rabbit.middlewares=redirect-rabbit,regex-rabbit,auth-rabbit"
-      # Basic Auth
-      ## Create hash password < echo $(htpasswd -nb userName password) >
-      ## Add < | sed -e s/\\$/\\$\\$/g > to the end of the command if you want to place it here
-      # - "traefik.http.middlewares.auth-rabbit.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD}"
-      # Regex
-      - "traefik.http.middlewares.regex-rabbit.redirectregex.regex=^http://${RABBIT_URL}/(.*)"
-      - "traefik.http.middlewares.regex-rabbit.redirectregex.replacement=https://${RABBIT_URL}/$${*}"
+#  celery-worker:
+#    container_name: celery-worker
+#    build:
+#      context: ../../
+#      dockerfile: ${DOCKERFILE_PATH}
+#    image: *app
+#    restart: always
+#    env_file: *envfile
+#    command: ${START_CELERY_WORKER}
+#    depends_on:
+#      - rabbitmq
+#
+#  celery-beat:
+#    container_name: celery-beat
+#    build:
+#      context: ../../
+#      dockerfile: ${DOCKERFILE_PATH}
+#    image: *app
+#    env_file: *envfile
+#    command: ${START_CELERY_BEAT}
+#    depends_on:
+#      - celery-worker
+#
+#  flower:
+#    container_name: flower
+#    image: ${FLOWER}
+#    restart: "no"
+#    env_file: *envfile
+#    ports:
+#      - 5555:5555
+#    depends_on:
+#      - rabbitmq
+#    labels:
+#      - "traefik.enable=true"
+#      # Routers
+#      - "traefik.http.routers.flower.rule=Host(`${FLOWER_URL}`)"
+#      - "traefik.http.routers.flower.entrypoints=web"
+#      - "traefik.http.routers.flower.tls=true"
+#      # - "traefik.http.routers.flower.tls.certresolver=apiResolver" # Resolver in static configuration
+#      # Services
+#      - "traefik.http.routers.flower.service=flower" # Service declaration
+#      - "traefik.http.services.flower.loadbalancer.server.port=5555"
+#      # Middlewares declaration
+#      - "traefik.http.routers.flower.middlewares=redirect-flower,regex-flower,auth-flower"
+#      # Regex
+#      - "traefik.http.middlewares.regex-flower.redirectregex.regex=^https://${FLOWER_URL}/(.*)"
+#      - "traefik.http.middlewares.regex-flower.redirectregex.replacement=http://${FLOWER_URL}/$${*}"
+#
+#  rabbitmq:
+#    container_name: rabbitmq
+#    image: ${RABBIT}
+#    env_file: *envfile
+#    ports:
+#      - 5672:5672
+#      - 15672:15672
+#    volumes:
+#      - ${DATA_FOLDER}/rabbitmq_data:/data
+#    depends_on:
+#      traefik:
+#        condition: service_healthy
+#    labels:
+#      - "traefik.enable=true"
+#      # Routers
+#      - "traefik.http.routers.rabbit.rule=Host(`${RABBIT_URL}`)"
+#      - "traefik.http.routers.rabbit.entrypoints=websecure"
+#      - "traefik.http.routers.rabbit.tls=true"
+#      # - "traefik.http.routers.rabbit.tls.certresolver=apiResolver" # Resolver in static configuration
+#      # Services
+#      - "traefik.http.routers.rabbit.service=rabbit" # Service declaration
+#      - "traefik.http.services.rabbit.loadbalancer.server.port=5672"
+#      # Middlewares declaration
+#      - "traefik.http.routers.rabbit.middlewares=redirect-rabbit,regex-rabbit,auth-rabbit"
+#      # Basic Auth
+#      ## Create hash password < echo $(htpasswd -nb userName password) >
+#      ## Add < | sed -e s/\\$/\\$\\$/g > to the end of the command if you want to place it here
+#      # - "traefik.http.middlewares.auth-rabbit.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD}"
+#      # Regex
+#      - "traefik.http.middlewares.regex-rabbit.redirectregex.regex=^http://${RABBIT_URL}/(.*)"
+#      - "traefik.http.middlewares.regex-rabbit.redirectregex.replacement=https://${RABBIT_URL}/$${*}"
