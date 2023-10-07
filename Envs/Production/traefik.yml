@@ -2,7 +2,7 @@
 api:
   # Dashboard
   dashboard: true
-  insecure: false
+  insecure: true
 
 # Docker configuration backend
 providers:
@@ -14,7 +14,7 @@ ping: {}
 
 # Traefik Logging
 log:
-  level: INFO
+  level: DEBUG
 
 # Entrypoint
 entryPoints:

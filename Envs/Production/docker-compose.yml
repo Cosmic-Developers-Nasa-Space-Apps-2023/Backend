@@ -32,8 +32,8 @@ services:
       # Middlewares declaration
       - "traefik.http.routers.proxy.middlewares=regex"
       # Regex
-      - "traefik.http.middlewares.regex.redirectregex.regex=^https://${TRAEFIK_URL}/(.*)"
-      - "traefik.http.middlewares.regex.redirectregex.replacement=http://${TRAEFIK_URL}/$${*}"
+      - "traefik.http.middlewares.regex.redirectregex.regex=^https://traefik.opencommunity.work/(.*)"
+      - "traefik.http.middlewares.regex.redirectregex.replacement=http://traefik.opencommunity.work/$${*}"
 
 
   app:
@@ -66,8 +66,8 @@ services:
       # Image compressor
       - "traefik.http.middlewares.compressor-app.compress=true"
       # Regex
-      - "traefik.http.middlewares.regex-app.redirectregex.regex=^https://${BACKEND_URL}/(.*)"
-      - "traefik.http.middlewares.regex-app.redirectregex.replacement=http://${BACKEND_URL}/$${*}"
+      - "traefik.http.middlewares.regex-app.redirectregex.regex=^https://api.opencommunity.work/(.*)"
+      - "traefik.http.middlewares.regex-app.redirectregex.replacement=http://api.opencommunity.work/$${*}"
     depends_on:
       traefik:
         condition: service_healthy
