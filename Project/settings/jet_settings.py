@@ -51,6 +51,21 @@ JET_SIDE_MENU_ITEMS: list = [
         ],
     },
     {
+        "label": ("Projects"),
+        "app_label": "Projects",
+        "items": [
+            {
+                "name": "project",
+                "label": "Projects",
+            },
+            {"name": "joiningrequests", "label": "Joining Requests"},
+            {
+                "name": "usersprojects",
+                "label": "Users Projects",
+            },
+        ],
+    },
+    {
         "label": ("Email"),
         "app_label": "Emails",
         "items": [

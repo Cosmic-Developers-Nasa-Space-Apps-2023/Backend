@@ -4,7 +4,7 @@ from dateutil.relativedelta import relativedelta
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
-from django.db.models import CASCADE
+from django.db.models import CASCADE, JSONField
 from django.db.models import BooleanField
 from django.db.models import CharField
 from django.db.models import DateField
@@ -19,7 +19,7 @@ from django.db.models.fields.related import ForeignObject
 from django_prometheus.models import ExportModelOperationsMixin
 from phonenumber_field.modelfields import PhoneNumberField
 
-from Project.storage import ImageStorage
+
 from Project.storage import get_image_storage
 from Project.storage import image_file_upload
 from Users.choices import AuthProviders
@@ -64,6 +64,28 @@ class User(
         choices=PreferredLanguageChoices.choices,
         default=PreferredLanguageChoices.ENGLISH,
         null=True,
+    )
+    skills = JSONField(
+        "skills",
+        null=True,
+        blank=True
+    )
+    experience = JSONField(
+        "Esperience",
+        null=True,
+        blank=True
+    )
+    seeking_fields = JSONField(
+        "SeekingSkills",
+        null=True,
+        blank=True
+    )
+    working_availability = DateField(null=True)
+    defaultSummary = TextField(
+        "DefaultSummary",
+        max_length=500,
+        null=True,
+        blank=True
     )
     is_verified: Field = BooleanField("Verified", default=False)
     is_premium: Field = BooleanField("Premium", default=False)
