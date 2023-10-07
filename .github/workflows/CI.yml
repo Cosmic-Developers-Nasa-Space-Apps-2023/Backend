@@ -1,11 +1,9 @@
-name: Main workflow
+name: CI workflow
 
 on:
   pull_request:
     branches:
       - 'master'
-      - 'staging'
-      - 'dev'
 
 jobs:
   Check-Lint:
