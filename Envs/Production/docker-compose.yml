@@ -23,7 +23,7 @@ services:
     labels:
       - "traefik.enable=true"
       # Routers
-      - "traefik.http.routers.proxy.rule=Host(`${TRAEFIK_URL}`)"
+      - "traefik.http.routers.proxy.rule=Host(`traefik.opencommunity.work`)"
       - "traefik.http.routers.proxy.entrypoints=web"
       - "traefik.http.routers.proxy.tls=true"
       # Services
@@ -55,7 +55,7 @@ services:
     labels:
       - "traefik.enable=true"
       # Routers
-      - "traefik.http.routers.api.rule=Host(`${BACKEND_URL}`)"
+      - "traefik.http.routers.api.rule=Host(`api.opencommunity.work`)"
       - "traefik.http.routers.api.entrypoints=web"
       - "traefik.http.routers.api.tls=true"
       # Services
