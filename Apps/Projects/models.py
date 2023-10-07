@@ -119,11 +119,11 @@ class Users(Model):
 class JoiningRequests(Model):
     user_id = ManyToManyField(
         User,
-        related_name="joining_requests";
+        related_name="joining_requests"
     )
     project_id = ManyToManyField(
         Project,
-        related_name="joining_requests";
+        related_name="joining_requests"
     )
     working_date = DateField(null=False)
     summary = TextField(
