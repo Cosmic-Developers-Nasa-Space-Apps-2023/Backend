@@ -11,7 +11,7 @@ providers:
 
 # Traefik Logging
 log:
-  level: DEBUG
+  level: ERROR
 
 # Entrypoint
 entryPoints:
