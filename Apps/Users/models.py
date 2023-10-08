@@ -4,7 +4,7 @@ from dateutil.relativedelta import relativedelta
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
-from django.db.models import CASCADE, JSONField
+from django.db.models import CASCADE
 from django.db.models import BooleanField
 from django.db.models import CharField
 from django.db.models import DateField
@@ -12,13 +12,13 @@ from django.db.models import DateTimeField
 from django.db.models import EmailField
 from django.db.models import Field
 from django.db.models import ImageField
+from django.db.models import JSONField
 from django.db.models import Model
 from django.db.models import OneToOneField
 from django.db.models import TextField
 from django.db.models.fields.related import ForeignObject
 from django_prometheus.models import ExportModelOperationsMixin
 from phonenumber_field.modelfields import PhoneNumberField
-
 
 from Project.storage import get_image_storage
 from Project.storage import image_file_upload
@@ -65,31 +65,13 @@ class User(
         default=PreferredLanguageChoices.ENGLISH,
         null=True,
     )
-    skills = JSONField(
-        "skills",
-        null=True,
-        blank=True
-    )
-    experience = JSONField(
-        "Esperience",
-        null=True,
-        blank=True
-    )
-    seeking_fields = JSONField(
-        "SeekingSkills",
-        null=True,
-        blank=True
-    )
-    working_availability = DateField(null=True)
     defaultSummary = TextField(
-        "DefaultSummary",
-        max_length=500,
-        null=True,
-        blank=True
+        "DefaultSummary", max_length=500, null=True, blank=True
     )
     is_verified: Field = BooleanField("Verified", default=False)
     is_premium: Field = BooleanField("Premium", default=False)
     is_admin: Field = BooleanField("Admin", default=False)
+    is_public: Field = BooleanField("Public", default=False)
     auth_provider: Field = CharField(
         "Auth provider",
         max_length=10,
@@ -161,6 +143,10 @@ class Profile(ExportModelOperationsMixin("profile"), Model):
         blank=True,
         max_length=50,
     )
+    skills = JSONField("skills", null=True, blank=True)
+    experience = JSONField("Esperience", null=True, blank=True)
+    seeking_fields = JSONField("SeekingSkills", null=True, blank=True)
+    working_availability = DateField(null=True)
     bio: Field = TextField("Bio", null=True, blank=True)
     image: Field = ImageField(
         "Profile image",

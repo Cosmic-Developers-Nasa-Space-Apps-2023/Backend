@@ -22,6 +22,7 @@ urlpatterns: list = [
     path("admin/", admin.site.urls),
     path("api/", include(("Users.urls", "users"), namespace="users")),
     path("api/", include(("Emails.urls", "emails"), namespace="emails")),
+    path("api/", include(("Projects.urls", "projects"), namespace="projects")),
     path(
         "api/oauth/", include(("Users.OAuth.urls", "oauth"), namespace="oauth")
     ),

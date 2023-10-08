@@ -4,6 +4,7 @@ from django.db.models import Model
 from django.db.models import QuerySet
 from drf_extra_fields.fields import Base64ImageField
 from phonenumber_field.serializerfields import PhoneNumberField
+from rest_framework.fields import SerializerMethodField
 from rest_framework.relations import RelatedField
 from rest_framework.serializers import BooleanField
 from rest_framework.serializers import CharField
@@ -18,6 +19,25 @@ from rest_framework.serializers import ValidationError
 from Users.models import Profile
 from Users.models import User
 from Users.utils import check_e164_format
+
+
+class UserSerializer(Serializer):
+    id: Field = IntegerField()
+    first_name: Field = SerializerMethodField()
+    last_name: Field = SerializerMethodField()
+    email: Field = SerializerMethodField()
+
+    def get_first_name(self, obj: User) -> str:
+        return obj.first_name if obj.is_public else "Anonymous"
+
+    def get_last_name(self, obj: User) -> str:
+        return obj.last_name if obj.is_public else "*****"
+
+    def get_email(self, obj: User) -> str:
+        return obj.email if obj.is_public else "*****@*****.***"
+
+    class Meta:
+        model: Model = User
 
 
 class UserRetrieveSerializer(Serializer):
