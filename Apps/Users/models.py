@@ -65,10 +65,6 @@ class User(
         default=PreferredLanguageChoices.ENGLISH,
         null=True,
     )
-    skills = JSONField("skills", null=True, blank=True)
-    experience = JSONField("Esperience", null=True, blank=True)
-    seeking_fields = JSONField("SeekingSkills", null=True, blank=True)
-    working_availability = DateField(null=True)
     defaultSummary = TextField(
         "DefaultSummary", max_length=500, null=True, blank=True
     )
@@ -147,6 +143,10 @@ class Profile(ExportModelOperationsMixin("profile"), Model):
         blank=True,
         max_length=50,
     )
+    skills = JSONField("skills", null=True, blank=True)
+    experience = JSONField("Esperience", null=True, blank=True)
+    seeking_fields = JSONField("SeekingSkills", null=True, blank=True)
+    working_availability = DateField(null=True)
     bio: Field = TextField("Bio", null=True, blank=True)
     image: Field = ImageField(
         "Profile image",
