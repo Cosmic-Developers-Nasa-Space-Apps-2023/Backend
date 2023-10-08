@@ -117,6 +117,10 @@ class UserSignUpSerializer(Serializer):
     def create(self, data):
         data.pop("password_confirmation")
         user: User = User.objects.create_user(**data, is_verified=False)
-        send_email("verify_email", user)
+        try:
+            send_email("verify_email", user)
+        except Exception as e:
+            user.is_verified = True
+            user.save()
         log_information("registered", user)
         return user
