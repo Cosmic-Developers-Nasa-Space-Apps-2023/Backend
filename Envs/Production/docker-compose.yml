@@ -62,9 +62,11 @@ services:
     restart: always
     ports:
       - "8888:80"
+    stdin_open: true
+    tty: true
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.landing.rule=Host(`opencommunity.work`)"
+      - "traefik.http.routers.landing.rule=Host(`landing.opencommunity.work`)"
       - "traefik.http.routers.landing.service=landing"
       - "traefik.http.services.landing.loadbalancer.server.port=8888"
       - "traefik.http.routers.landing.entrypoints=web"
