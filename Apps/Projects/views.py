@@ -35,21 +35,6 @@ class JoiningRequestsViewSet(ModelViewSet):
     serializer_class: JoiningRequestsSerializer = JoiningRequestsSerializer
     permission_classes: list = [IsAuthenticated & IsVerified]
 
-    # Get by project, passing the project id as a query parameter and return only
-    # if iss currently working on the project
-    @action(
-        detail=False,
-        methods=["get"],
-        permission_classes=[IsAuthenticated & IsVerified],
-        url_path='(?P<project_id>[^/.]+)'
-    )
-    def list_by_project(self, request, project_id):
-        if UsersProjects.objects.filter(user_id=request.user.id, project_id=project_id).exists():
-            self.queryset = JoiningRequests.objects.filter(project_id=project_id).all()
-            return super().list(request)
-        raise PermissionDenied("You don't have permission")
-
-    # Accept or reject request, only if the user is currently working on the project
     def update(self, request, *args, **kwargs):
         request = get_object_or_404(JoiningRequests, id=kwargs["pk"])
         if UsersProjects.objects.filter(user_id=request.user.id, project_id=request.project_id).exists():
@@ -64,8 +49,19 @@ class JoiningRequestsViewSet(ModelViewSet):
             return super().update(request, *args, **kwargs)
         raise PermissionDenied("You don't have permission")
 
-    # Delete only if is the creator
     def destroy(self, request, *args, **kwargs):
         if self.get_object().user_id == request.user.id:
             return super().destroy(request, *args, **kwargs)
+        raise PermissionDenied("You don't have permission")
+
+    @action(
+        detail=False,
+        methods=["get"],
+        permission_classes=[IsAuthenticated & IsVerified],
+        url_path='(projects/?P<project_id>[^/.]+)'
+    )
+    def list_by_project(self, request, project_id):
+        if UsersProjects.objects.filter(user_id=request.user.id, project_id=project_id).exists():
+            self.queryset = JoiningRequests.objects.filter(project_id=project_id).all()
+            return super().list(request)
         raise PermissionDenied("You don't have permission")

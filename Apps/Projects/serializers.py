@@ -28,7 +28,7 @@ class ProjectSerializer(ModelSerializer):
 
 
 class JoiningRequestsSerializer(ModelSerializer):
-    user = SerializerMethodField()
+    user = SerializerMethodField(read_only=True)
 
     def get_user(self, obj, *args, **kwargs):
         user = get_object_or_404(User, id=obj.user_id.id)
