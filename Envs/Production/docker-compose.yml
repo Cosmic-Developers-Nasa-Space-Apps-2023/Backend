@@ -57,7 +57,7 @@ services:
       - "traefik.http.routers.app.entrypoints=web"
 
   landing:
-    container_name: front-app
+    container_name: landing-page
     image: alejandroacho/space-apps-2023-landing
     restart: always
     ports:
