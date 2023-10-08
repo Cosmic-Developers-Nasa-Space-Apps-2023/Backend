@@ -43,6 +43,7 @@ services:
 
   front:
     container_name: front-app
+    platform: linux/x86_64
     image: alejandroacho/space-apps-2023
     restart: always
     ports:
@@ -51,7 +52,7 @@ services:
     tty: true
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.front.rule=Host(`front.opencommunity.work`)"
-      - "traefik.http.routers.front.service=front"
-      - "traefik.http.services.front.loadbalancer.server.port=3000"
-      - "traefik.http.routers.front.entrypoints=web"
+      - "traefik.http.routers.app.rule=Host(`${FRONTEND_URL}`)"
+      - "traefik.http.routers.app.service=app"
+      - "traefik.http.services.app.loadbalancer.server.port=3000"
+      - "traefik.http.routers.app.entrypoints=web"
