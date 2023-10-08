@@ -42,7 +42,7 @@ services:
       - "traefik.http.routers.api.entrypoints=web"
 
   front:
-    container_name: front
+    container_name: front-app
     image: alejandroacho/space-apps-2023
     restart: always
     ports:
