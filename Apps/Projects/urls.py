@@ -9,8 +9,12 @@ from Projects.views import UsersProjectsViewSet
 
 router: DefaultRouter = DefaultRouter()
 router.register("projects", ProjectViewSet, basename="projects")
-router.register("users-projects", UsersProjectsViewSet, basename="users-projects")
-router.register("joining-requests", JoiningRequestsViewSet, basename="joining-requests")
+router.register(
+    "users-projects", UsersProjectsViewSet, basename="users-projects"
+)
+router.register(
+    "joining-requests", JoiningRequestsViewSet, basename="joining-requests"
+)
 
 urlpatterns: list = [
     path("", include(router.urls)),

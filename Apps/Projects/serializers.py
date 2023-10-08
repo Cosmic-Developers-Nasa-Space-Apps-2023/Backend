@@ -3,16 +3,17 @@ from django.shortcuts import get_object_or_404
 from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
 
-from Projects.models import JoiningRequests, Project, UsersProjects
+from Projects.models import JoiningRequests
+from Projects.models import Project
+from Projects.models import UsersProjects
 from Users.models import User
 from Users.serializers import UserSerializer
 
 
 class UsersProjectsSerializer(ModelSerializer):
-
-        class Meta:
-            model: Model = UsersProjects
-            fields: str = "__all__"
+    class Meta:
+        model: Model = UsersProjects
+        fields: str = "__all__"
 
 
 class ProjectSerializer(ModelSerializer):
@@ -36,4 +37,13 @@ class JoiningRequestsSerializer(ModelSerializer):
 
     class Meta:
         model: Model = JoiningRequests
-        fields: str = ["id", "project_id", "desired_role", "status", "working_date", "summary", "user_id", "user"]
+        fields: str = [
+            "id",
+            "project_id",
+            "desired_role",
+            "status",
+            "working_date",
+            "summary",
+            "user_id",
+            "user",
+        ]

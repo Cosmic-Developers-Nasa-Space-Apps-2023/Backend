@@ -18,4 +18,3 @@ class IsProjectOwner(BasePermission):
         except Exception as e:
             return False
         return request.user.id == project.owner.id
-

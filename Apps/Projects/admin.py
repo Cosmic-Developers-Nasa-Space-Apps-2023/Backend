@@ -2,18 +2,16 @@ from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 from django.db.models import Model
 
-from Projects.models import Project, UsersProjects, JoiningRequests
+from Projects.models import JoiningRequests
+from Projects.models import Project
+from Projects.models import UsersProjects
 
 
 class ProjectAdmin(ModelAdmin):
     model: Model = Project
     list_display: tuple = ("id", "title", "status")
     list_display_links: tuple = ("id", "title")
-    list_filter: tuple = (
-        "title",
-        "status",
-        "field"
-    )
+    list_filter: tuple = ("title", "status", "field")
     fieldsets: tuple = (
         ("Basic", {"fields": ("id", "title", "description", "field")}),
         ("Dates", {"fields": ("starting_date", "finishing_date")}),
@@ -47,26 +45,32 @@ class JoiningRequestAdmin(ModelAdmin):
     model: Model = JoiningRequests
     list_display: tuple = ("id", "summary", "status")
     list_display_links: tuple = ("id",)
-    list_filter: tuple = (
-        "user_id",
-        "project_id",
-        "status",
-        "working_date"
-    )
+    list_filter: tuple = ("user_id", "project_id", "status", "working_date")
     fieldsets: tuple = (
         (
-            "Basic", {
+            "Basic",
+            {
                 "fields": (
-                    "id", "user_id", "project_id", "summary", "status", "working_date"
+                    "id",
+                    "user_id",
+                    "project_id",
+                    "summary",
+                    "status",
+                    "working_date",
                 )
-            }
+            },
         ),
     )
     readonly_fields: list = [
         "id",
     ]
     search_fields: tuple = (
-        "id", "user_id", "project_id", "summary", "status", "working_date"
+        "id",
+        "user_id",
+        "project_id",
+        "summary",
+        "status",
+        "working_date",
     )
 
 
