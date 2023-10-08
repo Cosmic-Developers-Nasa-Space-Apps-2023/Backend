@@ -55,3 +55,18 @@ services:
       - "traefik.http.routers.app.service=app"
       - "traefik.http.services.app.loadbalancer.server.port=3000"
       - "traefik.http.routers.app.entrypoints=web"
+
+  landing:
+    container_name: front-app
+    image: alejandroacho/space-apps-2023-landing
+    restart: always
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.landing.rule=Host(`opencommunity.work`)"
+      - "traefik.http.routers.landing.service=landing"
+      - "traefik.http.services.landing.loadbalancer.server.port=3000"
+      - "traefik.http.routers.landing.entrypoints=web"
