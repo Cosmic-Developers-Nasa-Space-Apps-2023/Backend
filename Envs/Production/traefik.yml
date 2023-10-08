@@ -20,18 +20,3 @@ log:
 entryPoints:
   web:
     address: ":80"
-#  websecure:
-#    address: ":443"
-
-# Certificates
-#certificatesResolvers:
-#  apiResolver:
-#    acme:
-#      email: contact@domain.com
-#      storage: acme.json
-#      dnsChallenge:
-#        provider: gcloud
-#        delayBeforeCheck: 0
-      # httpChallenge:
-      #   entryPoint: web
-      # tlsChallenge: true
