@@ -43,7 +43,6 @@ services:
 
   front:
     container_name: front-app
-    platform: linux/x86_64
     image: alejandroacho/space-apps-2023
     restart: always
     ports:
