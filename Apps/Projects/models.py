@@ -1,4 +1,5 @@
-from django.db.models import Model, TextField, JSONField, DateField, CharField, BooleanField, ManyToManyField
+from django.db.models import Model, TextField, JSONField, DateField, CharField, BooleanField, ManyToManyField, \
+    ForeignKey, CASCADE
 from Users.models import User
 from Projects.choices import StatusChoices, RequestStatusChoices
 from Users.models import User
@@ -33,6 +34,11 @@ class Project(Model):
         default=StatusChoices.OPEN,
         null=True,
     )
+    owner = ForeignKey(
+        User,
+        on_delete=CASCADE,
+        related_name="owner"
+    )
     starting_date = DateField(null=False)
     finishing_date = DateField(null=True)
 
@@ -54,13 +60,15 @@ class UsersProjects(Model):
 
 
 class JoiningRequests(Model):
-    user_id = ManyToManyField(
+    user_id = ForeignKey(
         User,
-        related_name="joining_requests"
+        on_delete=CASCADE,
+        related_name="user"
     )
-    project_id = ManyToManyField(
+    project_id = ForeignKey(
         Project,
-        related_name="joining_requests"
+        on_delete=CASCADE,
+        related_name="project"
     )
     status = CharField(
         "status",
@@ -68,6 +76,12 @@ class JoiningRequests(Model):
         choices=RequestStatusChoices.choices,
         default=RequestStatusChoices.PENDING,
         null=True,
+    )
+    desired_role = CharField(
+        "desired_role",
+        max_length=100,
+        null=False,
+        blank=False
     )
     working_date = DateField(null=False)
     summary = TextField(

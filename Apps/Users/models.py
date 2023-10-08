@@ -90,6 +90,7 @@ class User(
     is_verified: Field = BooleanField("Verified", default=False)
     is_premium: Field = BooleanField("Premium", default=False)
     is_admin: Field = BooleanField("Admin", default=False)
+    is_public: Field = BooleanField("Public", default=False)
     auth_provider: Field = CharField(
         "Auth provider",
         max_length=10,
