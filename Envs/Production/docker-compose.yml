@@ -51,7 +51,7 @@ services:
     tty: true
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`app.opencommunity.work`)"
-      - "traefik.http.routers.app.service=app"
-      - "traefik.http.services.app.loadbalancer.server.port=3000"
-      - "traefik.http.routers.app.entrypoints=web"
+      - "traefik.http.routers.front.rule=Host(`app.opencommunity.work`)"
+      - "traefik.http.routers.front.service=front"
+      - "traefik.http.services.front.loadbalancer.server.port=3000"
+      - "traefik.http.routers.front.entrypoints=web"
