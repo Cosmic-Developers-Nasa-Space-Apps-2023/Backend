@@ -41,17 +41,17 @@ services:
       - "traefik.http.services.api.loadbalancer.server.port=8000"
       - "traefik.http.routers.api.entrypoints=web"
 
-#  front:
-#    container_name: front
-#    image: alejandroacho/space-apps-2023
-#    restart: always
-#    ports:
-#      - "3000:3000"
-#    stdin_open: true
-#    tty: true
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.front.rule=Host(`app.opencommunity.work`)"
-#      - "traefik.http.routers.front.service=front"
-#      - "traefik.http.services.front.loadbalancer.server.port=3000"
-#      - "traefik.http.routers.front.entrypoints=web"
+  front:
+    container_name: front
+    image: alejandroacho/space-apps-2023
+    restart: always
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.front.rule=Host(`app.opencommunity.work`)"
+      - "traefik.http.routers.front.service=front"
+      - "traefik.http.services.front.loadbalancer.server.port=3000"
+      - "traefik.http.routers.front.entrypoints=web"
